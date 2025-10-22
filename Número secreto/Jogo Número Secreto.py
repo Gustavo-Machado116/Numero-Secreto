@@ -2,81 +2,79 @@ import random
 import os
 
 jogo = True
+
 while jogo == True:
 
     os.system('cls')
 
-    print('\nBem vindo ao Número Secreto O JOGO!\nversão 1.2.2')
+    print('Bem vindo ao Número Secreto O JOGO!\nversão 1.2.2')
+    
 
-    dificuldade = True
+    
 
-    while dificuldade == True:
+    def modo_doJogo():
+        while True:
 
-        print('Por Favor, escolha uma dificuldade:\n[f = Fácil.]\n[m =  Médio.]\n[d = Difícil.]')
+            print('\nPor Favor, escolha uma dificuldade:\n[f = Fácil.]\n[m =  Médio.]\n[d = Difícil.]')
+            escolha = (input('Digite aqui:  ')).lower()
+            
+            match escolha:
 
-        escolher_dificuldade = (input('Digite aqui:__'))
-
-    def modo_doJogo(escolher_dificuldade):
-        global numeromagico
-        global vidas
-
-        match escolher_dificuldade:
                 case "f":
-                    vidas = 6
-                    numeromagico = random.randint (0,11)
-                    print(f'Você escolheu o nível de dificuldade Fácil.\nVocê tem o total de  7 vidas.\nO número de 1 à 10 ')
-                    break
+                    print(f'\nVocê escolheu o nível de dificuldade Fácil.\nVocê tem o total de  7 vidas.\nO número de 1 à 10 ')
+                    return 6, random.randint (0,11)
         
                 case 'm':
-                    vidas = 8
-                    numeromagico = random.randint (0,26)
-                    print(f'Você escolheu o nível de dificuldade Médio.\nVocê tem o total de  8 vidas.\nO número de 1 à 25 ')
-                    break
+                    print(f'\nVocê escolheu o nível de dificuldade Médio.\nVocê tem o total de  8 vidas.\nO número de 1 à 25 ')
+                    return 8, random.randint (0,26)
         
                 case 'd':
-                    nivel = 'Difícil'
-                    vidas = 10
-                    numeromagico = random.randint (0,51)
-                    print(f'Você escolheu o nível de dificuldade Difícil.\nVocê tem o total de 10 vidas.\nO número vai de 1 à 50')
-                    break
+                    print(f'\nVocê escolheu o nível de dificuldade Difícil.\nVocê tem o total de 10 vidas.\nO número vai de 1 à 50')
+                    return 10, random.randint (0,50)
 
                 case _:
-                    print(f'Escolha "{escolher_dificuldade}" inválida.\n Por favor escolha entre f, m ou d')    
-            
-    vitoria = False
+                    print(f'\nEscolha "{escolha}" inválida.\n Por favor escolha entre f, m ou d')
+
+    vidas, numeromagico = modo_doJogo()
+
+    vitoria = False    
     while vitoria == False and vidas > 0:
-        chute = int(input("Adivinhe qual é o número que estou pensando..."))
+        try:
+            chute = int(input("\nAdivinhe qual é o número que estou pensando..."))
+        except ValueError:
+            print (f'\nOpção {chute} inválida. Digite um número.')
+        
         
         if chute == numeromagico:
-            print("boa")
+            print("\nParabéns, você acertou!")
             vitoria = True
         else:
-            vidas -= 1
-            print(f"Você errou. ainda tem {vidas} vidas restantes.")
-            if chute < numeromagico:
-                print ("Tente maior")
-            else:
-                print ("Tente menor")
-                
-    if vidas == 0:
-        print("Você não tem mais vidas restantes.")
+            while vidas != 0:
+                vidas -= 1
+                print(f"Você errou. Ainda tem {vidas} vidas restantes.")
+                if chute < numeromagico:
+                    print ("\nTente maior!")
+                else:
+                    print ("\nTente menor!")
+            if not vidas:
+                print("\nVocê errou e não tem mais vidas restantes...")
         
-    if vitoria == True or vidas == 0:
-        print('O jogo acabou...')        
-        print('')
+    if vitoria == True or not vidas:
+
+        print('\nO jogo acabou...')        
         print('Deseja Jogar novamente?')
-        print('')
         print('[ s = Sim ]')
         print('[ n = Não ]')
-        denovo = (input(':__'))
+
+        denovo = (input(':__')).lower()
         if denovo == 's':
-            print('')
-            print('Certo, Reiniciando o jogo...')
-            print('Boa sorte!')
-            vitoria = False   
+            print('\nCerto, Reiniciando o jogo...')
+            print('\nBoa sorte!')
+            vitoria = False
+
         if denovo == 'n':
-            print('Obrigado por jogar, até a próxima!')
+            print('\nObrigado por jogar, até a próxima!')
             jogo = False
+
         else:
-            print(f'Opção {denovo} inválida. Por favor escolha entre "s" ou "n"')
-        
+            print(f'\nOpção {denovo} inválida. Por favor escolha entre "s" ou "n"')
